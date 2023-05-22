@@ -13,12 +13,13 @@ WebGUI access:
 - `ssh docker_host -L 8080:127.0.0.1:<WEB_PORT_LOCALEXPOSED>` then `localhost:8080`
 
 Configuration `.env`:
-| Variable              | Default | Description                                                                 |
-|-----------------------|---------|-----------------------------------------------------------------------------|
-| WEB_PORT_INTERNAL     | 80      | WebGUI access from virtual network                                          |
-| WEB_PORT_LOCALEXPOSED | 8080    | WebGUI port binding on docker host local interface                          |
-| WEB_PASS              | 1234    | WebGUI password                                                             |
-| WG_HOST               | 1.2.3.4 | Wireguard server external address/domain, used for clients configuartion    |
-| WG_PORT               | 1234    | Wireguard server listen port                                                |
-| WG_NET_PREFIX         | 10.8.0  | Virtual network address:  WG_NET_PREFIX.0/24                                |
-| WGHOSTS_ZONE          | wg.net  | Internal vpn DNS zone, server vpn.WGHOSTS_ZONE, clients 'name'.WGHOSTS_ZONE |
+| Variable              | Default | Description                                                              |
+|-----------------------|---------|--------------------------------------------------------------------------|
+| WEB_PORT_INTERNAL     | 80      | WebGUI access from virtual network                                       |
+| WEB_PORT_LOCALEXPOSED | 8080    | WebGUI port binding on docker host local interface                       |
+| WEB_PASS              | 1234    | WebGUI password                                                          |
+| WG_HOST               | 1.2.3.4 | Wireguard server external address/domain, used for clients configuartion |
+| WG_PORT               | 1234    | Wireguard server listen port                                             |
+| WG_NET_PREFIX         | 10.8.0  | Virtual network address:  WG_NET_PREFIX.0/24                             |
+| WGHOSTS_ZONE          | wg.net  | Internal vpn DNS zone, clients names: 'name'.WGHOSTS_ZONE                |
+| WGHOSTS_SERVER        | vpn     | Internal vpn DNS server name: WGHOSTS_SERVER.WGHOSTS_ZONE                |

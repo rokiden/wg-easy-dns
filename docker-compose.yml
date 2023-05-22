@@ -35,6 +35,7 @@ services:
     working_dir: /usr/src
     environment:
       - WGHOSTS_ZONE=${WGHOSTS_ZONE}
+      - WGHOSTS_SERVER=${WGHOSTS_SERVER}
       - PYTHONUNBUFFERED=1
     volumes:
       - ./config:/usr/src/config

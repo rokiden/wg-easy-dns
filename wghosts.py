@@ -3,6 +3,7 @@ from time import sleep, time
 import json
 
 DNS_ZONE = os.environ['WGHOSTS_ZONE']
+SERVER_NAME = os.environ['WGHOSTS_SERVER']
 SLEEP = os.environ.get('WGHOSTS_SLEEP', 3)
 
 WGFILE = 'config/wg/wg0.json'
@@ -18,7 +19,7 @@ def upd():
     print('Config update:')
     with open(WGFILE, 'r') as f:
         j = json.load(f)
-    server = (j['server']['address'], 'vpn')
+    server = (j['server']['address'], SERVER_NAME)
     clients = sorted([(c['address'], c['name']) for c in j['clients'].values()])
     hosts = '\n'.join([f'{a} {n}.{DNS_ZONE}' for a, n in [server] + clients])
     conf = HOSTSFILE_NOTE + DNS_ZONE + ' {\nhosts {\n' + hosts + '\nfallthrough\n}\n}'
