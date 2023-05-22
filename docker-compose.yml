@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   wg:
-    image: weejewel/wg-easy
+    image: weejewel/wg-easy:7
     environment:
       - PORT=${WEB_PORT_INTERNAL}
       - PASSWORD=${WEB_PASS}
@@ -12,7 +12,7 @@ services:
       - WG_DEFAULT_DNS=${WG_NET_PREFIX}.1
       - WG_POST_UP=iptables -t nat -A POSTROUTING -s ${WG_NET_PREFIX}.0/24 -o eth0 -j MASQUERADE; iptables -t nat -A PREROUTING -i wg0 -p udp --dport 53 -j DNAT --to-destination `getent hosts dns | cut -d' ' -f1`:53
     volumes:
-      - ./wgdata:/etc/wireguard
+      - ./config/wg:/etc/wireguard
     ports:
       - ${WG_PORT}:51820/udp
       - 127.0.0.1:${WEB_PORT_LOCALEXPOSED}:${WEB_PORT_INTERNAL}/tcp
@@ -22,7 +22,21 @@ services:
     sysctls:
       - net.ipv4.ip_forward=1
       - net.ipv4.conf.all.src_valid_mark=1
+
   dns:
     image: coredns/coredns
+    working_dir: /config
     volumes:
-      - ./Corefile:/Corefile
+      - ./config/dns:/config
+
+  wghosts:
+    image: python:3-alpine
+    network_mode: none
+    working_dir: /usr/src
+    environment:
+      - WGHOSTS_ZONE=${WGHOSTS_ZONE}
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./config:/usr/src/config
+      - ./wghosts.py:/usr/src/main.py
+    command: python main.py

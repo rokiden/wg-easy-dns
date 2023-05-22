@@ -6,9 +6,4 @@
     forward . /etc/resolv.conf
 }
 
-wg.net {
-    hosts {
-        10.8.0.1 vpn.wg.net
-        fallthrough
-    }
-}
+import wghosts.conf
