@@ -10,7 +10,7 @@ services:
       - WG_PORT=${WG_PORT}
       - WG_DEFAULT_ADDRESS=${WG_NET_PREFIX}.x
       - WG_DEFAULT_DNS=${WG_NET_PREFIX}.1
-      - WG_POST_UP=iptables -t nat -A POSTROUTING -s ${WG_NET_PREFIX}.0/24 -o eth0 -j MASQUERADE; iptables -t nat -A PREROUTING -i wg0 -p udp --dport 53 -j DNAT --to-destination `getent hosts dns | cut -d' ' -f1`:53
+      - WG_POST_UP=iptables -t nat -A POSTROUTING -s ${WG_NET_PREFIX}.0/24 -o eth+ -j MASQUERADE; iptables -t nat -A PREROUTING -i %i -p udp --dport 53 -j DNAT --to-destination `getent hosts dns | cut -d' ' -f1`:53
     volumes:
       - ./config/wg:/etc/wireguard
     ports:
@@ -22,12 +22,14 @@ services:
     sysctls:
       - net.ipv4.ip_forward=1
       - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped
 
   dns:
     image: coredns/coredns
     working_dir: /config
     volumes:
       - ./config/dns:/config
+    restart: unless-stopped
 
   wghosts:
     image: python:3-alpine
@@ -41,3 +43,4 @@ services:
       - ./config:/usr/src/config
       - ./wghosts.py:/usr/src/main.py
     command: python main.py
+    restart: unless-stopped

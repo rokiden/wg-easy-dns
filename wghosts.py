@@ -1,10 +1,11 @@
 import os
+import signal
 from time import sleep, time
 import json
 
 DNS_ZONE = os.environ['WGHOSTS_ZONE']
 SERVER_NAME = os.environ['WGHOSTS_SERVER']
-SLEEP = os.environ.get('WGHOSTS_SLEEP', 3)
+SLEEP = int(os.environ.get('WGHOSTS_SLEEP', 3))
 
 WGFILE = 'config/wg/wg0.json'
 HOSTSFILE = 'config/dns/wghosts.conf'
@@ -27,6 +28,12 @@ def upd():
     with open(HOSTSFILE, 'w') as f:
         f.write(conf)
 
+
+def terminate(signal,frame):
+    exit(0)
+
+
+signal.signal(signal.SIGTERM, terminate)
 
 prev_mt = 0
 prev_changed = True
