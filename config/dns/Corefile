@@ -3,7 +3,6 @@
     reload
     loop
     cache
+    import wghosts.conf
     forward . /etc/resolv.conf
 }
-
-import wghosts.conf

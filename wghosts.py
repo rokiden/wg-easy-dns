@@ -23,7 +23,7 @@ def upd():
     server = (j['server']['address'], SERVER_NAME)
     clients = sorted([(c['address'], c['name']) for c in j['clients'].values()])
     hosts = '\n'.join([f'{a} {n}.{DNS_ZONE}' for a, n in [server] + clients])
-    conf = HOSTSFILE_NOTE + DNS_ZONE + ' {\nhosts {\n' + hosts + '\nfallthrough\n}\n}'
+    conf = HOSTSFILE_NOTE + 'hosts {\n' + hosts + '\nfallthrough\n}'
     print(conf)
     with open(HOSTSFILE, 'w') as f:
         f.write(conf)
