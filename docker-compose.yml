@@ -10,6 +10,7 @@ services:
       - WG_PORT=${WG_PORT}
       - WG_DEFAULT_ADDRESS=${WG_NET_PREFIX}.x
       - WG_DEFAULT_DNS=${WG_NET_PREFIX}.1
+      - WG_PRE_UP=/etc/wireguard/patch_tooltip.sh /app/www/index.html
       - WG_POST_UP=iptables -t nat -A POSTROUTING -s ${WG_NET_PREFIX}.0/24 -o eth+ -j MASQUERADE; iptables -t nat -A PREROUTING -i %i -p udp --dport 53 -j DNAT --to-destination `getent hosts dns | cut -d' ' -f1`:53
     volumes:
       - ./config/wg:/etc/wireguard

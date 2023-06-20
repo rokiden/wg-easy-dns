@@ -23,3 +23,7 @@ Configuration `.env`:
 | WG_NET_PREFIX         | 10.8.0  | Virtual network address:  WG_NET_PREFIX.0/24                             |
 | WGHOSTS_ZONE          | wg.net  | Internal vpn DNS zone, clients names: 'name'.WGHOSTS_ZONE                |
 | WGHOSTS_SERVER        | vpn     | Internal vpn DNS server name: WGHOSTS_SERVER.WGHOSTS_ZONE                |
+
+Patch `patch_tooltip.sh`:
+Original wg-easy web page uses `title` html attribute for some information, for example `Total Download`.
+Modern mobile web browsers doesn't implement feature to show it. This patch adds css to show tooltip on click for mobile devices.
